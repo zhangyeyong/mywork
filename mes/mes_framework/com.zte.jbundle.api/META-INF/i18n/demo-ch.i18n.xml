@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n>
+	<!--把此xml文件放置到META-INF/i18n/目录下-->
+	<msg code="jbundle.utils.demo">示例i18n语言</msg>
+</i18n>
