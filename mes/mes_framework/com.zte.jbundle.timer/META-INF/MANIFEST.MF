@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Timer Plug-in
+Bundle-SymbolicName: com.zte.jbundle.timer
+Bundle-Version: 1.0.0
+Bundle-Activator: com.zte.jbundle.timer.internal.Activator
+Bundle-Vendor: PanJun
+Import-Package: com.zte.jbundle.api,
+ org.dom4j,
+ org.dom4j.io,
+ org.osgi.framework,
+ org.quartz,
+ org.quartz.impl,
+ org.quartz.utils,
+ org.slf4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

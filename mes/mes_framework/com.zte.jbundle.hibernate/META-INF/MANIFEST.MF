@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Hibernate
+Bundle-SymbolicName: com.zte.jbundle.hibernate
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.zte.jbundle.hibernate.internal.Activator
+Bundle-Vendor: PANJUN
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.zte.jbundle.api,
+ org.osgi.framework
+Require-Bundle: com.zte.jbundle.lib

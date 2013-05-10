@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 配置定时器时，把此文件放置到META-INF/timer目录下，配置文件以.timer.xml结尾 -->
+<timers>
+<!-- 
+    <timer class="com.zte.mas.service.impl.TestTimer" method="foo">
+        <group second="2" args="Hello, Pan,Jun" />
+    </timer>
+ -->
+</timers>

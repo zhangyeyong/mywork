@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Configuration</title>
+<link type="text/css" rel="stylesheet" href="./asset/fw.css"></link>
+<script type="text/javascript" src="./asset/jquery.min.js"></script>
+<script type="text/javascript" src="./asset/jquery.zxxbox.3.0.js"></script>
+<script type="text/javascript" src="./asset/fw.js"></script>
+<script type="text/javascript">
+	function restoreConfig(clazz){
+		if(confirm("Confirmation you want to restore config ["+clazz+"] for the default")){
+			$.getJSON("./ConfigAction/restoreDefault?"+ajaxTag(), {clazz:clazz}, function(data){
+				if(data.relogin){
+					location.href="./login.html";
+					return;
+				}
+
+				loadConfigs();
+				if(data.err){
+				   alert("Failed to restore configuration, please check the log!");
+				}
+			});
+		}
+	}
+	
+	function editConfig(clazz){
+		$.getJSON("./ConfigAction/getJsonValue?"+ajaxTag(),{clazz:clazz}, function(data){
+			if(data.relogin){
+				location.href="./login.html";
+				return;
+			}
+			
+			loadConfigs();
+			if(!data.err){
+				$("#clazz").val(clazz);
+				$("#editor").val(data.ret);
+				$("#editorDiv").zxxbox({title:"Modify the content of the config item["+clazz+"]",drag:true});
+			}
+		});
+	}
+
+	function saveCfg(){
+		var clazz = $("#clazz").val();
+		var json = $("#editor").val();
+		$.getJSON("./ConfigAction/saveValue?"+ajaxTag(),{clazz:clazz,json:json}, function(data){
+			if(data.relogin){
+				location.href="./login.html";
+				return;
+			}
+			
+			loadConfigs();
+			if(data.err){
+			   alert("Save config was failed, please to check the json format!");
+			}else{
+			   $.zxxbox.hide();			   
+			}
+		});
+	}
+
+	function loadConfigs(){
+		$("#configs tr").remove();
+		var data={cfg:$("#cfgName").val()};
+		$.getJSON("./ConfigAction/list?"+ajaxTag(),data, function(data){
+			if(data.relogin){
+				location.href="./login.html";
+				return;
+			}
+			if(!data.err){
+				var configs = $("#configs"); 
+				$.each(data.ret, function(i, e){
+					var row = "<tr><td style='width: 200px;'>${clazz}</td><td style='width: 350px;'>${json}</td><td>"+
+					   "<a href=\"javascript:restoreConfig('${clazz}');\">Restore</a>&nbsp;&nbsp;"+
+					   "<a href=\"javascript:editConfig('${clazz}');\">Modify</a>";
+					   "</td></tr>"
+					configs.append(format(row, e));
+				});
+				adjustTdBorder();
+			}else{
+				alert("Failed to load configuration：" + data.msg);
+			}
+		});
+	}
+
+	$(document).ready(function(){
+		loadConfigs();
+		adjustJbTbDiv();
+	});
+</script>
+</head>
+<body>
+<div class="jb_lay_head">Mcore Management Console</div>
+<div class="jb_lay_main">
+<div class="jb_lay_menu">
+<ul>
+	<li class="selected"><a href="./config.html">Config Manage</a></li>
+	<li><a href="./logger.html">Log View</a></li>
+	<li><a href="./other.html">Miscellaneous</a></li>
+</ul>
+</div>
+<div class="jb_lay_page" id="jb_lay_page">
+<form onsubmit="loadConfigs(); return false;" class="jb_form">
+<table class="jb_query">
+	<tr>
+		<td width="140">Config code:</td>
+		<td width="100"><input type="text" id="cfgName"
+			style="width: 200px" /></td>
+		<td>
+		<button type="submit">Query</button>
+		</td>
+	</tr>
+</table>
+</form>
+<table class="jb_tbTitle" align="center" id="jb_title">
+	<tr>
+		<th style="width: 200px;">Config code</th>
+		<th style="width: 350px;">Config content</th>
+		<th>Operate</th>
+	</tr>
+</table>
+<div class="jb_tbDiv" id="jb_tbDiv">
+<table class="jb_tbData" align="center" id="configs">
+</table>
+</div>
+</div>
+</div>
+
+<div id="editorDiv" style="display: none;"><input type="hidden"
+	id="clazz" name="clazz" />
+<table>
+	<tr>
+		<td><textarea rows="20" style="width: 600px;" id="editor"
+			name="json" wrap="off"></textarea></td>
+	</tr>
+	<tr>
+		<td align="center"">
+		<button onclick="saveCfg();" type="button">Modify</button>
+		&nbsp;
+		<button onclick="$.zxxbox.hide();">Cancel</button>
+		</td>
+	</tr>
+</table>
+</div>
+</body>
+</html>

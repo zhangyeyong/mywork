@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Langres Plug-in
+Bundle-SymbolicName: com.zte.jbundle.utils
+Bundle-Version: 1.0.0
+Bundle-Vendor: ZTE
+DynamicImport-Package: *
+Export-Package: com.zte.jbundle.utils
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

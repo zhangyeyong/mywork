@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Hessian
+Bundle-SymbolicName: com.zte.jbundle.hessian
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: PanJun
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+DynamicImport-Package: *
+Import-Package: com.zte.jbundle.api,
+ javax.servlet,
+ org.osgi.framework,
+ org.osgi.service.http,
+ org.osgi.util.tracker
+Bundle-ClassPath: .
+Require-Bundle: com.zte.jbundle.lib
+

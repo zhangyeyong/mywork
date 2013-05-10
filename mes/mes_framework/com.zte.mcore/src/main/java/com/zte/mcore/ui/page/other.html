@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Miscellaneous</title>
+<link type="text/css" rel="stylesheet" href="./asset/fw.css"></link>
+<script type="text/javascript" src="./asset/jquery.min.js"></script>
+<script type="text/javascript" src="./asset/jquery.zxxbox.3.0.js"></script>
+<script type="text/javascript" src="./asset/fw.js"></script>
+<script type="text/javascript">
+	function loadLinks() {
+		$("#other tr").remove();
+		$.getJSON("./OtherAction/list?"+ajaxTag(), function(data) {
+			if(data.relogin){
+				location.href="./login.html";
+				return;
+			}
+			
+			if (data.ret) {
+				var other = $("#other");
+				$.each(data.ret, function(i, e) {
+					var row ="<tr><td><a href=\"javascript:execute('"+e.clazz+"', this);\">"+e.title+"</td></tr>";
+					other.append(row);
+				});
+				adjustTdBorder();
+			} else {
+				alert("Loading log was failed：" + data.msg);
+			}
+		});
+	}
+	
+	function execute(clazz, href){
+		var msg = "Are you sure to execute following operation?\n"+href.innerHTML;
+		if(!confirm(msg))return;
+		
+		$.getJSON("./OtherAction/execute?clazz="+clazz+"&"+ajaxTag());
+	}
+
+	$(document).ready(function() {
+		loadLinks();
+		adjustJbTbDiv();
+	});
+</script>
+</head>
+<body>
+<iframe id="downFrame" style="display: none;"></iframe>
+<div class="jb_lay_head">Mcore Management Console</div>
+<div class="jb_lay_main">
+<div class="jb_lay_menu">
+<ul>
+	<li><a href="./config.html">Config Manage</a></li>
+	<li><a href="./logger.html">Log View</a></li>
+	<li class="selected"><a href="./other.html">Miscellaneous</a></li>
+</ul>
+</div>
+<div class="jb_lay_page">
+<table class="jb_tbTitle" id="jb_tbTitle">
+	<tr>
+		<th style="width: 350px;">Operation Name:</th>
+	</tr>
+</table>
+<div class="jb_tbDiv" id="jb_tbDiv">
+<table class="jb_tbData" align="center" id="other">
+</table>
+</div>
+
+</div>
+</div>
+</body>
+</html>

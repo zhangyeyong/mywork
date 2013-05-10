@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 使用时，请修改此文件名为:"config.xml" -->
+<config>
+    <!-- The folders of source code -->
+    <codePaths>
+    	<path>E:\svn\MES100\trunk\mes01_vtelca\Src</path>
+    </codePaths>
+    <excludes>
+    	<project>com.zte.jbundle.lib</project>
+    </excludes>
+    <!-- local file system path: for save build result files,such as: jar, war -->
+    <distPath>d:\mes_pb\dist</distPath>
+    <libList>
+        <!-- Build Osgi Bundle Project need jars, support remote jar such as: http, ftp -->
+        <osgLibs>
+            <jar>ftp://10.17.82.33/java/mes-lib/osgi/com.zte.jbundle.lib.jar</jar>
+            <jar>ftp://10.17.82.33/java/mes-lib/osgi/javax.servlet_3.0.0.v201112011016.jar</jar>
+            <jar>ftp://10.17.82.33/java/mes-lib/osgi/org.eclipse.osgi.services_3.3.100.v20120522-1822.jar</jar>
+            <jar>ftp://10.17.82.33/java/mes-lib/osgi/org.eclipse.osgi_3.8.0.v20120529-1548.jar</jar>
+        </osgLibs>
+        <var name="M2_REPO" path="E:/svn/maven-lib/repository" />
+        <var name="TOMCAT_HOME" path="D:/devTools/tomcat-7.0.16" />
+    </libList>
+</config>

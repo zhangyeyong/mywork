@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: flowRuleEngine
+Bundle-SymbolicName: com.zte.jbundle.fre
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: ZTE
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.codehaus.jackson,
+ org.codehaus.jackson.map
+Export-Package: com.zte.jbundle.fre.expr,
+ com.zte.jbundle.fre.flow.caze,
+ com.zte.jbundle.fre.flow.define

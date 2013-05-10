@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 
+<title>Untitled Document</title>
+<!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.zxxbox.3.0.js"></script>
+<script type="text/javascript" src="./ExprRuleEditor.js"></script>
+<script type="text/javascript">
+
+    var mesFlow;
+
+    function saveValues(){
+    	var s = mesFlow.save() ;
+    	$("#saveData").val(s);
+    }
+    
+    function loadValues(){
+        mesFlow.load($("#saveData").val());
+    }
+    
+	$(document).ready(function() {
+		setTimeout("init()", 100);
+	});
+
+	function init(){
+		mesFlow = new erns.TExprRuleEditor("canvas", "div");
+		mesFlow.onEditingNode = editingNode;
+		mesFlow.onEditingEdge = editingEdge;
+	}
+
+	function editingNode(nodeId,ntype, title, roles, ext) {
+		$("#nodeId").val(nodeId);
+		$("#nodeTitle").val(title);
+		$("#nodeRoles").val(roles);
+		$("#nodeExt").val(ext);
+		$("#nodeEditor").zxxbox();
+	}
+	
+	function updateNode(){
+		mesFlow.updateNode($("#nodeId").val(),$("#nodeTitle").val(), $("#nodeRoles").val(), $("#nodeExt").val());
+		$.zxxbox.hide();
+	}
+
+	var edge;
+	function editingEdge(edgeId, srcBizId, dstBizId, expr, order){
+		edge = edgeId;
+		$("#edtOrder").val(order);
+		$("#expr").val(expr);
+		$("#srcId").html(srcBizId);
+		$("#dstId").html(dstBizId);
+		$("#edgeEditor").zxxbox();
+	}
+
+	function updateEdge(){
+		mesFlow.updateEdge(edge,$("#expr").val(), $("#edtOrder").val());
+		$.zxxbox.hide();
+	}
+
+	function addFlow(){
+		mesFlow.addEdge();
+	}
+
+	function addTask(){
+		;
+	}
+
+</script>
+
+</head>
+<body>
+<br />
+名称:
+<input type="text" value="员工刷卡" id="title">
+<input type="button" value="添加任务" onclick="mesFlow.addWorkNode($('#title').val());">
+<input type="button" value="开始节点" onclick="mesFlow.addStartNode();">
+<input type="button" value="结束节点" onclick="mesFlow.addEndNode();">
+<input type="button" value="同步节点" onclick="mesFlow.addSyncNode();">
+
+<input type="button" id="edge" value="添加流程" onclick="addFlow();">
+<hr />
+<input type="button" value="删除" onclick="mesFlow.deleteSelected();">
+&nbsp;
+<input type="button" value="撤销" onclick="mesFlow.undo();">
+&nbsp;
+<input type="button" value="重做" onclick="mesFlow.redo();">
+<input type="button" value="保存" onclick="saveValues();">
+<input type="button" value="加载" onclick="loadValues();">
+
+<div id="edgeEditor" style="display: none;">
+<table>
+	<tr>
+		<td width="100">开始业务ID</td>
+		<td width="100" id="srcId"></td>
+		<td width="100">结束业务ID</td>
+		<td width="100" id="dstId"></td>
+	</tr>
+	<tr>
+		<td>顺序</td>
+		<td colspan="3"><input type="text" id="edtOrder"
+			style="width: 400px;"></td>
+	</tr>
+	<tr>
+		<td>表达式</td>
+		<td colspan="3"><textarea rows="5" id="expr"
+			style="width: 400px;"></textarea></td>
+	</tr>
+	<tr>
+		<td colspan="4" align="center"><input type="button" value="确定"
+			onclick="updateEdge();"> <input type="button" value="取消"
+			onclick="$.zxxbox.hide();"></td>
+	</tr>
+</table>
+</div>
+
+<div id="nodeEditor" style="display: none;">
+<input type="hidden" id="nodeId" />
+<table>
+	<tr>
+		<td>标题</td>
+		<td><input type="text" id="nodeTitle" style="width: 400px;"></td>
+	</tr>
+	<tr>
+		<td>角色</td>
+		<td><input type="text" id="nodeRoles" style="width: 400px;"></td>
+	</tr>
+	<tr>
+		<td>扩展</td>
+		<td><input type="text" id="nodeExt" style="width: 400px;"></td>
+	</tr>
+	<tr>
+		<td colspan="4" align="center"><input type="button" value="确定"
+			onclick="updateNode();"> <input type="button" value="取消"
+			onclick="$.zxxbox.hide();"></td>
+	</tr>
+</table>
+</div>
+
+<hr />
+<div>
+<div style="height: 20px;">&nbsp;</div>
+<div style="border: 1px solid blue; margin-left: 30px; height: 500px;"
+	id="div"><canvas id="canvas" style="border: 1px solid red;">
+你的浏览器不支持 </canvas></div>
+</div>
+<br />
+<textarea rows="5" id="saveData" style="width: 600px;"></textarea>
+</body>
+</html>

@@ -1,0 +1,19 @@
+package com.zte.mcore.ui.link;
+
+
+public class MenuLink {
+
+    public String getTitle() {
+        return "测试连接";
+    }
+
+    public void execute() {
+        System.out.println("abc123456789");
+    }
+
+    public static void main(String[] args) {
+        String s = "abc\0\0\0\0\0\0\0\0\0sadfsaf";
+        System.out.println(s);
+    }
+
+}

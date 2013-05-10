@@ -1,0 +1,11 @@
+Hibernate 3.5 thin notification:
+1)Clear useless files in META-INF folder
+2)Delete folder: hibernate3.jar\org\hibernate\ejb
+3)Delete folder: hibernate3.jar\org\hibernate\test
+4)Delete folder: hibernate3.jar\org\hibernate\tool
+5)Delete folder: hibernate3.jar\org\hibernate\jmx
+6)Delete folder: hibernate3.jar\org\hibernate\junit
+7)Delete folder: hibernate3.jar\org\hibernate\annotations
+8)Delete folder: hibernate3.jar\org\hibernate\envers
+9)Delete folder: hibernate3.jar\org\hibernate\cfg\annotations
+10)Delete folder: hibernate3.jar\org\hibernate\junit

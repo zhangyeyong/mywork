@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.panjun.osgi.fw
+Bundle-SymbolicName: com.zte.jbundle.home
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.zte.jbundle.home.internal.Activator
+Bundle-Vendor: PANJUN
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+DynamicImport-Package: *
+Require-Bundle: com.zte.jbundle.lib
+Import-Package: 
+ com.zte.jbundle.api,
+ javax.servlet,
+ javax.servlet.http,
+ org.apache.commons.fileupload,
+ org.apache.commons.fileupload.disk,
+ org.apache.commons.fileupload.servlet,
+ org.apache.log4j,
+ org.codehaus.jackson.map,
+ org.osgi.framework,
+ org.osgi.service.http,
+ org.osgi.util.tracker,
+ org.slf4j
