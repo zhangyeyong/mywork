@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Plug-in Manage</title>
+<link type="text/css" rel="stylesheet" href="/jbundle/page/asset/fw.css"></link>
+<script type="text/javascript" src="/jbundle/page/asset/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="/jbundle/page/asset/fw.js"></script>
+<script type="text/javascript">
+	function doAjax(action, symbolic, msg) {
+		if (action == "delete" && !confirm("Sure you want to delete the plug-in[" + symbolic + "]")) {
+			return;
+		}
+		$.getJSON("/jbundle/PluginAction/" + action + "/" + symbolic+"?"+ajaxTag(),
+				function(e) {
+					loadPlugins();
+					if (e.ret != "Y") {
+						alert(msg + "plug-in[" + symbolic + "]failed!" + e.msg);
+					}
+				});
+	}
+
+	function loadPlugins() {
+		$("#jb_tbData tr").remove();
+		$.getJSON("/jbundle/PluginAction/list"+"?"+ajaxTag(), function(data) {
+			if (data.login) {
+				eval(data.login);
+				return;
+			}
+			if (data.ret == "Y") {
+				var plugins = $("#jb_tbData");
+				$.each(data.data, function(i, e) {
+					e.status = e.active ? "activate" : "stop";
+					e.act = e.active ? "stop" : "activate";
+					e.color = e.active ? "color:green" : "color:#777";
+					var row = "<tr><td style='${color};width:320px;'>${symbolic}</td><td style='${color};width:60px;'>${status}</td><td>"+
+					"<a href=\"javascript:doAjax('update','${symbolic}','update');\">Update</a>"+
+					"<a href=\"javascript:doAjax('change','${symbolic}','${act}');\">${act}</a>"+
+					"<a href=\"javascript:doAjax('delete','${symbolic}','delete');\">Delete</a>"+
+					"</td></tr>";
+					plugins.append(format(row,e));
+				});
+			} else {
+				alert("Loading plug-ins was failed：" + data.msg);
+			}
+		});
+	}
+
+	$(document).ready(function() {
+		loadPlugins();
+		adjustJbTbDiv();
+	});
+</script>
+</head>
+<body>
+<div class="jb_lay_head">JBundle Management Console</div>
+<div class="jb_lay_main">
+<div class="jb_lay_menu">
+<ul>
+	<li class="selected"><a href="/jbundle/page/plugin.html">Plug-in Manage</a></li>
+	<li><a href="/jbundle/page/config.html">Config Manage</a></li>
+	<li><a href="/jbundle/page/logger.html">Log View</a></li>
+</ul>
+</div>
+<div class="jb_lay_page">
+<form action="/jbundle/PluginAction/upload" method="post"
+	enctype="multipart/form-data" class="jb_form">
+<table class="jb_query">
+	<tr>
+		<td style="width: 140px;">Upload new plug-ins:</td>
+		<td style="width: 240px;"><input type="file" name="pluginData"
+			style="width: 100%;" /></td>
+		<td>
+		<button type="submit">Upload</button>
+		</td>
+	</tr>
+</table>
+</form>
+<table class="jb_tbTitle" id="jb_tbTitle">
+	<tr>
+		<th style="width: 320px;">Name</th>
+		<th style="width: 60px;">Status</th>
+		<th>Operate</th>
+	</tr>
+</table>
+<div class="jb_tbDiv"  id="jb_tbDiv">
+<table class="jb_tbData" align="center" id="jb_tbData">
+</table>
+</div>
+</div>
+</div>
+<div class="jb_lay_foot">Simple plug-in management framework</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<project name="BuildAll" default="all" basedir=".">
+	<target name="all" description="Build the distribution .war file">
+		<!--ant antfile="build-1.xml" /-->
+		<!--#{taskList}-->
+		<zip destfile="#{distPath}.zip">
+			<fileset dir="#{distPath}" />
+		</zip>
+		<delete dir="#{distPath}"/>
+	</target>
+</project>

@@ -1,0 +1,55 @@
+<project name="WarBuilder" default="war" basedir=".">
+	<property name="PrjName" value="#{PrjName}" />
+	<property name="WarName" value="#{WarName}" />
+	<property name="PrjFolder" value="#{PrjFolder}" />
+	<property name="srcWebRoot" value="#{WebRoot}" />
+	<property name="distPath" value="#{distPath}" />
+	<property name="tempDir" value="${distPath}/${PrjName}_TempDir" />
+	<property name="WebRoot" value="${distPath}/${PrjName}_TempDir/WebRoot" />
+	<property name="JavaCode" value="${distPath}/${PrjName}_TempDir/JavaCode" />
+
+	<path id="lib.class.path">
+		<!--#{dependJar}-->
+	</path>
+	<target name="copyAll" description="Compile the Java source code">
+		<delete dir="${tempDir}" />
+		<mkdir dir="${WebRoot}" />
+		<copy todir="${WebRoot}" overwrite="off">
+			<fileset dir="${srcWebRoot}" />
+		</copy>
+
+		<mkdir dir="${WebRoot}/WEB-INF/lib" />
+		<copy todir="${WebRoot}/WEB-INF/lib" overwrite="off">
+			<!--copy jar eg:<fileset file="D:\devTools\eclipse-jee-juno\mes-web\asm-3.3.jar" />-->
+			<!--#{copyJar}-->
+		</copy>
+
+		<mkdir dir="${JavaCode}" />
+		<copy todir="${JavaCode}" overwrite="on">
+			<!--copy java code eg:<fileset dir="E:\ShareLib\com.zte.test.ui\src\main\java" />-->
+			<!--#{JavaCode}-->
+		</copy>
+	</target>
+	<target name="compile" description="Compile the Java source code" depends="copyAll">
+		<mkdir dir="${WebRoot}/WEB-INF/classes" />
+		<javac destdir="${WebRoot}/WEB-INF/classes" classpathref="lib.class.path" debug="${javac.debug}" nowarn="on" encoding="utf-8">
+			<src path="${JavaCode}" />
+		</javac>
+	</target>
+
+	<target name="copy" depends="compile" description="Copy other files">
+		<copy todir="${WebRoot}/WEB-INF/classes" overwrite="off">
+			<fileset dir="${JavaCode}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="war" depends="copy" description="Build the distribution .war file">
+		<war destfile="${distPath}/${WarName}.war">
+			<fileset dir="${WebRoot}" />
+		</war>
+		<delete dir="${tempDir}" />
+	</target>
+</project>

@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Login</title>
+<link type="text/css" rel="stylesheet" href="/jbundle/page/asset/fw.css"></link>
+<script type="text/javascript" src="/jbundle/page/asset/fw.js"></script>
+<script type="text/javascript" src="/jbundle/page/asset/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+function login(username, password){
+	$("#tips").css("display","none");
+	username = encodeURI(username);
+	password = encodeURI(password);
+	$.getJSON("/jbundle/LoginAction/login/"+username+"/"+password+"?"+ajaxTag(), function(e){
+		if(e.ret=="Y" && e.data){
+			location.href="/jbundle/plugin.html";
+		}else{
+			$("#tips").css("display","");
+		}
+	});
+}
+
+</script>
+</head>
+<body>
+<form
+	onsubmit="login($('#username').val(), $('#password').val());return false;">
+<table class="jb_login">
+	<tr
+		style="background-color: #eee; font-size: 16px; font-weight: bolder; color: #555;">
+		<td colspan="2" align="center">Jbundle</td>
+	</tr>
+	<tr>
+		<td style="width: 90px;">Username:</td>
+		<td style="text-align: left;"><input type="text" id="username"></td>
+	</tr>
+	<tr>
+		<td>Password:</td>
+		<td style="text-align: left;"><input type="password"
+			id="password"></td>
+	</tr>
+	<tr style="background-color: #eee;">
+		<td colspan="2">
+		<button type="submit">Login</button>
+		</td>
+	</tr>
+</table>
+</form>
+<table class="jb_login_tips" id="tips" style="display: none;">
+	<tr style="color: red;">
+		<td colspan="2" style="text-align: left">Error username or password!</td>
+	</tr>
+</table>
+</body>
+</html>
